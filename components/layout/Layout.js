@@ -24,7 +24,7 @@ const Layout = (props) => {
             box-sizing: inherit;
           }
           body {
-            font-size: 1.4rem; //equals to 16px
+            font-size: 1rem; //equals to 16px
             line-height: 1.5;
             font-family: "Roboto", serif;
           }
