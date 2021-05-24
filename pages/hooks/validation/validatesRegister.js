@@ -1,6 +1,7 @@
 export default function validatesRegister(values) {
+  //validations rules to Register form component
   let errors = {};
-  //
+
   //validates username
   if (!values.user_name) {
     errors.user_name = "the user name is mandatory";
@@ -18,4 +19,5 @@ export default function validatesRegister(values) {
   } else if (values.password.length < 6) {
     errors.password = "password must have 6 characters at least";
   }
+  return errors;
 }

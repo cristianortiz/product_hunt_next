@@ -37,3 +37,16 @@ export const InputSubmit = styled.input`
     cursor: pointer;
   }
 `;
+
+//erros styled component'
+export const Error = styled.p`
+  background-color: red;
+  padding: 0.5rem 1rem;
+  font-family: "Noto Sans JP", sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  color: #fff;
+  text-align: center;
+  text-transform: uppercase;
+  margin: 1rem 0 1rem 0;
+`;

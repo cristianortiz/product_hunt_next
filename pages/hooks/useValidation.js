@@ -18,23 +18,30 @@ const useValidation = (initialState, validate, fn) => {
       const noErrors = Object.keys(errors).length === 0;
 
       if (noErrors) {
-        //custum function executes in the component like newAccount,login,newProduct etc
+        //custom function executes in the component like register,login,newProduct etc
         fn();
       }
       //reset submited form flag
       setSubmitForm(false);
     }
-  }, []);
+  }, [errors]);
 
   //executes when user is typing in forms inputs
   const handleChange = (e) => {
     setValues({ ...values, [e.target.name]: e.target.value });
   };
 
+  //blur event, the user stop typing anf left the input
+  const handleBlur = (e) => {
+    //check for error in inputs form
+    const validationErrors = validate(values);
+    //add the previous errors in the errors state
+    setErrors(validationErrors);
+  };
   //executes when the user submits the form
   const handleSubmit = (e) => {
     e.preventDefault();
-    //check for error in validation
+    //check for error in inputs form
     const validationErrors = validate(values);
     //add the previous errors in the errors state
     setErrors(validationErrors);
@@ -45,9 +52,9 @@ const useValidation = (initialState, validate, fn) => {
   return {
     values,
     errors,
-    submitForm,
     handleSubmit,
     handleChange,
+    handleBlur,
   };
 };
 

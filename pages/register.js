@@ -1,23 +1,38 @@
 import React, { Fragment } from "react";
 import { css } from "@emotion/react";
 import Layout from "../components/layout/Layout";
-import { Field, Form, InputSubmit } from "../components/ui/form";
+import { Field, Form, InputSubmit, Error } from "../components/ui/Form";
 import useValidation from "./hooks/useValidation";
 import validatesRegister from "./hooks/validation/validatesRegister";
 
+//import firebase instance and FireBaseContext
+import firebase from "../firebase";
+import firebaseConfig from "../firebase/config";
 const Register = () => {
-  //custom initial state of this component to use the useValidation hook
+  //custom initial state of this component to use with useValidation hook
   const INITIAL_STATE = {
     user_name: "",
     email: "",
     password: "",
   };
   /* call props and functions of useValidation hook, and this component is passing custom 
-  initial state,validation rules and register (as fn) to useValidation hook */
-  const { values, errors, submitForm, handleSubmit, handleChange } =
+  initial state,validationRegister rules and registerNewUser (as fn) to useValidation hook */
+  const { values, errors, handleSubmit, handleChange, handleBlur } =
     useValidation(INITIAL_STATE, validatesRegister, registerNewUser);
-  function registerNewUser() {
-    console.log("...register a new account");
+
+  //destructuring properties from values obj
+  const { user_name, email, password } = values;
+
+  //fn custom to register a new user in firebase
+  async function registerNewUser() {
+    try {
+      await firebase.registerNewUser(user_name, email, password);
+    } catch (error) {
+      console.error(
+        "there is an error creating the new account",
+        error.message
+      );
+    }
   }
 
   return (
@@ -32,7 +47,7 @@ const Register = () => {
           >
             Register a new account
           </h1>
-          <Form>
+          <Form onSubmit={handleSubmit}>
             <Field>
               <label htmlFor="user_name">Name</label>
               <input
@@ -40,17 +55,26 @@ const Register = () => {
                 id="nombre"
                 placeholder="your name"
                 name="user_name"
+                value={user_name}
+                onChange={handleChange}
+                onBlur={handleBlur}
               />
             </Field>
+            {errors.user_name && <Error> {errors.user_name}</Error>}
             <Field>
               <label htmlFor="email">Email</label>
               <input
                 type="email"
                 id="email"
                 placeholder="your email"
-                name="mail"
+                name="email"
+                value={email}
+                onChange={handleChange}
+                onBlur={handleBlur}
               />
             </Field>
+            {errors.email && <Error> {errors.email}</Error>}
+
             <Field>
               <label htmlFor="password">Password</label>
               <input
@@ -58,8 +82,13 @@ const Register = () => {
                 id="password"
                 placeholder="type a password"
                 name="password"
+                value={password}
+                onChange={handleChange}
+                onBlur={handleBlur}
               />
             </Field>
+            {errors.password && <Error> {errors.password}</Error>}
+
             <InputSubmit type="submit" value="create account" />
           </Form>
         </Fragment>
