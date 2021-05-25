@@ -1,5 +1,6 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import { css } from "@emotion/react";
+import Router from "next/router";
 import Layout from "../components/layout/Layout";
 import { Field, Form, InputSubmit, Error } from "../components/ui/Form";
 import useValidation from "./hooks/useValidation";
@@ -8,13 +9,17 @@ import validatesRegister from "./hooks/validation/validatesRegister";
 //import firebase instance and FireBaseContext
 import firebase from "../firebase";
 import firebaseConfig from "../firebase/config";
+
+//custom initial state of this component to use with useValidation hook
+const INITIAL_STATE = {
+  user_name: "",
+  email: "",
+  password: "",
+};
 const Register = () => {
-  //custom initial state of this component to use with useValidation hook
-  const INITIAL_STATE = {
-    user_name: "",
-    email: "",
-    password: "",
-  };
+  //local state to handle error in registerNewUser()
+  const [error, setError] = useState(false);
+
   /* call props and functions of useValidation hook, and this component is passing custom 
   initial state,validationRegister rules and registerNewUser (as fn) to useValidation hook */
   const { values, errors, handleSubmit, handleChange, handleBlur } =
@@ -27,11 +32,14 @@ const Register = () => {
   async function registerNewUser() {
     try {
       await firebase.registerNewUser(user_name, email, password);
+      Router.push("/");
     } catch (error) {
       console.error(
         "there is an error creating the new account",
         error.message
       );
+      //update local state error
+      setError(error.message);
     }
   }
 
@@ -88,6 +96,8 @@ const Register = () => {
               />
             </Field>
             {errors.password && <Error> {errors.password}</Error>}
+
+            {error && <Error> {error}</Error>}
 
             <InputSubmit type="submit" value="create account" />
           </Form>

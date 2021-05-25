@@ -1,10 +1,12 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useContext } from "react";
 import Link from "next/link";
 import styled from "@emotion/styled";
 import { css } from "@emotion/react";
 import Button from "../ui/Button";
 import Search from "../ui/Search";
 import NavBar from "./NavBar";
+//in firebase/index.js are joined the FirebaseContext and the firebase instance
+import { FirebaseContext } from "../../firebase";
 
 //-------Styled components---------
 const HeaderContainer = styled.div`
@@ -28,7 +30,8 @@ const Logo = styled.p`
 `;
 
 const Header = () => {
-  const user = false;
+  //access firebase instance and user from FirebaseContext through their context
+  const { firebase, user } = useContext(FirebaseContext);
   return (
     <header
       css={css`
@@ -64,9 +67,11 @@ const Header = () => {
                   margin-right: 2rem;
                 `}
               >
-                Hello: Jon
+                Hello {user.displayName}
               </p>
-              <Button bgColor="true">Sign Out</Button>
+              <Button bgColor="true" onClick={() => firebase.sessionClose()}>
+                Sign Out
+              </Button>
             </Fragment>
           ) : (
             <Fragment>
