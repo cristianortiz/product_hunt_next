@@ -8,7 +8,6 @@ import validatesLogin from "./hooks/validation/validatesLogin";
 
 //import firebase instance and FireBaseContext
 import firebase from "../firebase";
-import firebaseConfig from "../firebase/config";
 
 //custom initial state of this component to use with useValidation hook
 const INITIAL_STATE = {
