@@ -1,5 +1,8 @@
 import app from "firebase/app";
 import "firebase/auth";
+import "firebase/firestore";
+import "firebase/storage";
+
 import firebaseConfig from "./config";
 
 class Firebase {
@@ -8,7 +11,12 @@ class Firebase {
     if (!app.apps.length) {
       app.initializeApp(firebaseConfig);
     }
+    //firebase authentication
     this.auth = app.auth();
+    //firestore DB in firebase
+    this.db = app.firestore();
+    //firestore DB in firebase
+    this.storage = app.storage();
   }
 
   async registerNewUser(user_name, email, password) {
