@@ -56,6 +56,7 @@ const NewProduct = () => {
     // setUrlImg(url_image);
     //add the new product to DB in firestore
     firebase.db.collection("products").add(product);
+    return router.push("/");
   }
 
   const handleFile = (e) => {
