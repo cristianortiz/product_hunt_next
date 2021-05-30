@@ -25,7 +25,6 @@ class Firebase {
       email,
       password
     );
-
     //update user_name prop to display when user log in
     return await newUser.user.updateProfile({
       displayName: user_name,

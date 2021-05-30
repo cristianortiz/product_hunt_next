@@ -52,6 +52,10 @@ const NewProduct = () => {
       votes: 0, //data inputs entered by other users
       comments: [], //data inputs entered by other users
       created_at: Date.now(),
+      created_by: {
+        id: user.uid,
+        user_name: user.displayName,
+      },
     };
     // setUrlImg(url_image);
     //add the new product to DB in firestore
