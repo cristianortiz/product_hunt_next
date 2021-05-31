@@ -8,6 +8,7 @@ import validatesNewProduct from "./hooks/validation/validatesNewProduct";
 
 //import only FireBaseContext for firebase CRUD operations on products
 import { FirebaseContext } from "../firebase";
+import Error404 from "../components/layout/404";
 
 //custom initial state of this component to use with useValidation hook
 const INITIAL_STATE = {
@@ -56,6 +57,7 @@ const NewProduct = () => {
         id: user.uid,
         user_name: user.displayName,
       },
+      voted_by: [], //uid  of users who has voted for this product
     };
     // setUrlImg(url_image);
     //add the new product to DB in firestore
@@ -88,86 +90,90 @@ const NewProduct = () => {
   return (
     <div>
       <Layout>
-        <Fragment>
-          <h1
-            css={css`
-              text-align: center;
-              margin-top: 3rem;
-            `}
-          >
-            New Product
-          </h1>
-          <Form onSubmit={handleSubmit}>
-            <fieldset>
-              <legend>General Info</legend>
-              <Field>
-                <label htmlFor="product_name">Product Name</label>
-                <input
-                  type="text"
-                  id="product_name"
-                  placeholder="product name"
-                  name="product_name"
-                  value={product_name}
-                  onChange={handleChange}
-                />
-              </Field>
-              {errors.product_name && <Error> {errors.product_name}</Error>}
-              <Field>
-                <label htmlFor="brand">Brand</label>
-                <input
-                  type="text"
-                  id="brand"
-                  placeholder="type a brand"
-                  name="brand"
-                  value={brand}
-                  onChange={handleChange}
-                />
-              </Field>
-              {errors.brand && <Error> {errors.brand}</Error>}
-              <Field>
-                <label htmlFor="image">Image</label>
-                <input
-                  type="file"
-                  accept="image/*"
-                  id="image"
-                  name="image"
-                  onChange={handleFile}
-                />
-              </Field>
-              {errors.image && <Error> {errors.image}</Error>}
-              <Field>
-                <label htmlFor="url">URL</label>
-                <input
-                  type="url"
-                  id="url"
-                  placeholder="type a url"
-                  name="url"
-                  value={url}
-                  onChange={handleChange}
-                />
-              </Field>
-              {errors.url && <Error> {errors.url}</Error>}
-            </fieldset>
+        {!user ? (
+          <Error404 />
+        ) : (
+          <Fragment>
+            <h1
+              css={css`
+                text-align: center;
+                margin-top: 3rem;
+              `}
+            >
+              New Product
+            </h1>
+            <Form onSubmit={handleSubmit}>
+              <fieldset>
+                <legend>General Info</legend>
+                <Field>
+                  <label htmlFor="product_name">Product Name</label>
+                  <input
+                    type="text"
+                    id="product_name"
+                    placeholder="product name"
+                    name="product_name"
+                    value={product_name}
+                    onChange={handleChange}
+                  />
+                </Field>
+                {errors.product_name && <Error> {errors.product_name}</Error>}
+                <Field>
+                  <label htmlFor="brand">Brand</label>
+                  <input
+                    type="text"
+                    id="brand"
+                    placeholder="type a brand"
+                    name="brand"
+                    value={brand}
+                    onChange={handleChange}
+                  />
+                </Field>
+                {errors.brand && <Error> {errors.brand}</Error>}
+                <Field>
+                  <label htmlFor="image">Image</label>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    id="image"
+                    name="image"
+                    onChange={handleFile}
+                  />
+                </Field>
+                {errors.image && <Error> {errors.image}</Error>}
+                <Field>
+                  <label htmlFor="url">URL</label>
+                  <input
+                    type="url"
+                    id="url"
+                    placeholder="type a url"
+                    name="url"
+                    value={url}
+                    onChange={handleChange}
+                  />
+                </Field>
+                {errors.url && <Error> {errors.url}</Error>}
+              </fieldset>
 
-            <fieldset>
-              <legend>About your product</legend>
+              <fieldset>
+                <legend>About your product</legend>
 
-              <Field>
-                <label htmlFor="description"></label>
-                <textarea
-                  id="description"
-                  name="description"
-                  value={description}
-                  onChange={handleChange}
-                ></textarea>
-              </Field>
-              {errors.description && <Error> {errors.description}</Error>}
-            </fieldset>
+                <Field>
+                  <label htmlFor="description"></label>
+                  <textarea
+                    id="description"
+                    name="description"
+                    value={description}
+                    onChange={handleChange}
+                  ></textarea>
+                </Field>
+                {errors.description && <Error> {errors.description}</Error>}
+              </fieldset>
 
-            {error && <Error> {error}</Error>}
-            <InputSubmit type="submit" value="Add Product" />
-          </Form>
-        </Fragment>
+              {error && <Error> {error}</Error>}
+              <InputSubmit type="submit" value="Add Product" />
+            </Form>
+          </Fragment>
+        )}
       </Layout>
     </div>
   );
