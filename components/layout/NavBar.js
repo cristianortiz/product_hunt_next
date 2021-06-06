@@ -21,9 +21,17 @@ const NavBar = () => {
   const { user } = useContext(FirebaseContext);
   return (
     <Nav>
-      <Link href="/">Index</Link>
-      <Link href="/popular">Popular</Link>
-      {user && <Link href="/new-product">New Product</Link>}
+      <Link href="/">
+        <a>Index</a>
+      </Link>
+      <Link href="/popular">
+        <a>Popular</a>
+      </Link>
+      {user && (
+        <Link href="/new-product">
+          <a>New Product</a>
+        </Link>
+      )}
     </Nav>
   );
 };
