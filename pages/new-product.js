@@ -65,7 +65,7 @@ const NewProduct = () => {
     return router.push("/");
   }
 
-  const handleFile = (e) => {
+  const handleFile = (e) => { 
     if (e.target.files[0]) {
       console.log(e.target.files[0]);
       setFile(e.target.files[0]);
