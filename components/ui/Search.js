@@ -29,16 +29,15 @@ const InputSubmit = styled.button`
 const Search = () => {
   //local state to handle input search
   const [search, setSearch] = useState("");
-
+  //when user click search button
   const searchProduct = (e) => {
     e.preventDefault();
     if (search.trim() === "") return;
     console.log("..searching");
-
     //redirect to search
     Router.push({
       pathname: "/search",
-      query: { q: search },
+      query: { q: search }, //in the query string
     });
   };
   return (
